@@ -20,6 +20,9 @@ public class Intro : MonoBehaviour
 
     public GameObject ninja1;
     public GameObject ninja2;
+
+    public GameObject skipCanvas;
+
     public float speed;
 
     bool movingNinjasDown = false;
@@ -36,6 +39,37 @@ public class Intro : MonoBehaviour
 
     void Update()
     {
+        if(Input.GetKeyDown(KeyCode.F))
+        {
+            // Skip intro
+            StopCoroutine("Dialogue");
+
+            managerScript.gameIsRunning = true;
+            uiScript.scoreCanvas.SetActive(true);
+            tutorialCanvas.SetActive(true);
+
+            one.SetActive(false);
+            two.SetActive(false);
+            three.SetActive(false);
+            four.SetActive(false);
+            grandmaDuck.SetActive(false);
+            skipCanvas.SetActive(false);
+
+            GameObject [] ninjaDucks = GameObject.FindGameObjectsWithTag("Enemy");
+
+            if(ninjaDucks.Length != 0)
+            {
+                foreach( GameObject duckToDestroy in ninjaDucks)
+                {
+                    Destroy(duckToDestroy);
+                }
+            }
+            
+            managerScript.StartGame();
+            StartCoroutine("TutorialText");
+
+        }
+
         if (movingNinjasDown == true)
         {
             MoveNinjasDown();
@@ -46,9 +80,16 @@ public class Intro : MonoBehaviour
         }
     }
 
+    IEnumerator TutorialText()
+    {
+        yield return new WaitForSeconds(5f);
+        tutorialCanvas.SetActive(false);
+    }
+
     // Start is called before the first frame update
     public void StartIntro()
     {
+        skipCanvas.SetActive(true);
         StartCoroutine("Dialogue");
     }
 
@@ -85,6 +126,8 @@ public class Intro : MonoBehaviour
         yield return new WaitForSeconds(2f);
         four.SetActive(false);
         yield return new WaitForSeconds(1.5f);
+
+        skipCanvas.SetActive(false);
 
         managerScript.gameIsRunning = true;
         uiScript.scoreCanvas.SetActive(true);
