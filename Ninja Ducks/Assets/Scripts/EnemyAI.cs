@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class EnemyAI : MonoBehaviour
 {
-    private CameraShake cameraShakeScript;
+    private CameraManager cameraManagerScript;
     private UI uiScript;
     private Score scoreScript;
     private Movement movementScript;
@@ -19,7 +19,7 @@ public class EnemyAI : MonoBehaviour
 
     void Awake()
     {
-        cameraShakeScript = FindObjectOfType<CameraShake>();
+        cameraManagerScript = FindObjectOfType<CameraManager>();
         uiScript = FindObjectOfType<UI>();
         scoreScript = FindObjectOfType<Score>();
         movementScript = FindObjectOfType<Movement>();
@@ -48,7 +48,7 @@ public class EnemyAI : MonoBehaviour
         {
             Destroy(this.gameObject);
             scoreScript.AddScore();
-            cameraShakeScript.Shake(0.02f, 0.3f);
+            //cameraManagerScript.Shake(0.02f, 0.3f);
         }
     }
 

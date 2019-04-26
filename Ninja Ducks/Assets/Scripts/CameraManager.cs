@@ -2,20 +2,37 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraShake : MonoBehaviour
+public class CameraManager : MonoBehaviour
 {
     public Camera mainCam;
+    private Movement movementScript;
 
     float shakeAmount = 0;
+    bool shaking = false;
+
+    Vector3 offset;
 
     void Awake()
     {
+        offset = new Vector3(0, 0, -5);
+
+        movementScript = FindObjectOfType<Movement>();
+
         if (mainCam == null)
             mainCam = Camera.main;
     }
 
+    void FixedUpdate()
+    {
+        if(shaking == false)
+        {
+            mainCam.transform.position = movementScript.player.transform.position + offset;
+        }
+    }
+
     public void StartShake()
     {
+        shaking = true;
         Shake(0.02f, 0.2f);
     }
 
@@ -42,7 +59,8 @@ public class CameraShake : MonoBehaviour
     void StopShake()
     {
         CancelInvoke("DoShake");
-        mainCam.transform.localPosition = Vector3.zero; 
+        mainCam.transform.localPosition = Vector3.zero;
+        shaking = false; 
     }
 
 }
