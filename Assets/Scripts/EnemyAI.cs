@@ -48,7 +48,7 @@ public class EnemyAI : MonoBehaviour
         {
             Destroy(this.gameObject);
             scoreScript.AddScore();
-            //cameraManagerScript.Shake(0.02f, 0.3f);
+            cameraManagerScript.Shake(0.02f, 0.15f);
         }
     }
 

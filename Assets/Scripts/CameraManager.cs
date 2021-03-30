@@ -5,10 +5,6 @@ using UnityEngine;
 public class CameraManager : MonoBehaviour
 {
     public Camera mainCam;
-    private Movement movementScript;
-
-    float shakeAmount = 0;
-    bool shaking = false;
 
     Vector3 offset;
 
@@ -16,26 +12,11 @@ public class CameraManager : MonoBehaviour
     {
         offset = new Vector3(0, 0, -5);
 
-        movementScript = FindObjectOfType<Movement>();
-
         if (mainCam == null)
             mainCam = Camera.main;
     }
 
-    void FixedUpdate()
-    {
-        if(shaking == false)
-        {
-            mainCam.transform.position = movementScript.player.transform.position + offset;
-        }
-    }
-
-    public void StartShake()
-    {
-        shaking = true;
-        Shake(0.02f, 0.2f);
-    }
-
+    float shakeAmount = 0;
     public void Shake(float amt, float length)
     {
         shakeAmount = amt;
@@ -45,22 +26,18 @@ public class CameraManager : MonoBehaviour
 
     void DoShake()
     {
-        if(shakeAmount > 0)
-        {
-            Vector3 camPos = mainCam.transform.position;
-            float offsetX = Random.value * shakeAmount * 2 - shakeAmount;
-            float offsetY = Random.value * shakeAmount * 2 - shakeAmount;
-            camPos.x += offsetX;
-            camPos.y += offsetY;
-            mainCam.transform.position = camPos;
-        }
+        Vector3 camPos = mainCam.transform.position;
+        float offsetX = Random.value * shakeAmount * 2 - shakeAmount;
+        float offsetY = Random.value * shakeAmount * 2 - shakeAmount;
+        camPos.x += offsetX;
+        camPos.y += offsetY;
+        mainCam.transform.position = camPos;
     }
 
     void StopShake()
     {
         CancelInvoke("DoShake");
         mainCam.transform.localPosition = Vector3.zero;
-        shaking = false; 
     }
 
 }

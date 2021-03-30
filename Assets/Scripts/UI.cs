@@ -19,6 +19,7 @@ public class UI : MonoBehaviour
     {
         scoreScript = FindObjectOfType<Score>();
         managerScript = FindObjectOfType<GameManager>();
+        startCanvas.SetActive(true);
     }
 
     // Update is called once per frame
